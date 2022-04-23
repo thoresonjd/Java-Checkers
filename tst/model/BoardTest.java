@@ -5,10 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.stream.Stream;
 
 class BoardTest {
 
@@ -20,12 +23,16 @@ class BoardTest {
     void tearDown() {
     }
 
+    /*** Copy ***/
+
     @Test
     void copy_BoardsShouldNotBeEqual_WhenBoardIsCopied() {
         Board board = new Board();
         Board copy = board.copy();
         assertNotEquals(board, copy);
     }
+
+    /*** Find ***/
 
     @Test
     void find_FindAllTilesWithBlackCheckers_WhenNoMovesHaveBeenMade() {
@@ -61,6 +68,7 @@ class BoardTest {
         }
     }
 
+    /*** To Index ***/
 
     /**
      * Test if point is valid (black tile) or invalid (white tile or not on board).
@@ -83,8 +91,31 @@ class BoardTest {
         assertEquals(expected, board.toIndex(new Point(x, y)));
     }
 
+    /*** Set ***/
+
     @Test
-    void set_SetTilesEmpty_ExpectAllTilesEmpty() {
+    void set_SetTileAsBlackKingWithCoordinates_ExpectTileToBeBlackKing() {
+        Board board = new Board();
+
+        // Set board with kings
+        board.set(1, 0, board.BLACK_KING);
+        board.set(3, 0, board.BLACK_KING);
+        board.set(5, 0, board.BLACK_KING);
+        board.set(7, 0, board.BLACK_KING);
+
+        // Assert black kings
+        List<Point> bKings = board.find(Board.BLACK_KING);
+        List<Point> expectedBlack = List.of(
+                new Point(1, 0), new Point(3, 0), new Point(5, 0), new Point(7, 0)
+        );
+        for (int i = 0; i < bKings.size(); i++) {
+            assertEquals(bKings.get(i).x, expectedBlack.get(i).x);
+            assertEquals(bKings.get(i).y, expectedBlack.get(i).y);
+        }
+    }
+
+    @Test
+    void set_SetTilesEmptyWithIndex_ExpectAllTilesEmpty() {
         Board board = new Board();
 
         // Set board entirely empty
@@ -111,7 +142,7 @@ class BoardTest {
     }
 
     @Test
-    void set_SetBoardWithKings_ExpectBlackAndWhiteKings() {
+    void set_SetBoardWithKingsWithIndex_ExpectBlackAndWhiteKings() {
         Board board = new Board();
 
         // Set board with kings
@@ -146,7 +177,7 @@ class BoardTest {
     }
 
     @Test
-    void set_SetBoardInReverse_ExpectBlackAndWhiteToBeFlipped() {
+    void set_SetBoardInReverseWithIndex_ExpectBlackAndWhiteToBeFlipped() {
         Board board = new Board();
 
         // Set board in reverse
@@ -181,10 +212,25 @@ class BoardTest {
     }
 
     @Test
-    void set_ExerciseSetWithInvalidCheckers_ExerciseEmptyId() {
+    void set_ExerciseSetWithInvalidCheckersWithIndex_ExerciseEmptyId() {
         Board board = new Board();
         board.set(0, -1);
     }
+
+    /*** Set Bit ***/
+
+    @ParameterizedTest
+    @CsvSource({
+            "1, -1, 1",
+            "2, 32, 2",
+            "3, -100, 3",
+            "4, 100, 4"
+    })
+    void setBit_SetInvalidBit_ExpectTarget(int target, int bit, int expected) {
+        assertEquals(expected, Board.setBit(target, bit, true));
+    }
+
+    /*** Get ***/
 
     @ParameterizedTest
     @CsvSource({
@@ -200,16 +246,7 @@ class BoardTest {
         assertEquals(expected, board.get(x, y));
     }
 
-    @ParameterizedTest
-    @CsvSource({
-        "1, -1, 1",
-        "2, 32, 2",
-        "3, -100, 3",
-        "4, 100, 4"
-    })
-    void setBit_SetInvalidBit_ExpectTarget(int target, int bit, int expected) {
-        assertEquals(expected, Board.setBit(target, bit, true));
-    }
+    /*** Get Bit ***/
 
     @ParameterizedTest
     @CsvSource({
@@ -221,6 +258,8 @@ class BoardTest {
     void getBit_GetInvalidBit_ExpectZero(int target, int bit, int expected) {
         assertEquals(expected, Board.getBit(target, bit));
     }
+
+    /*** Middle ***/
 
     @ParameterizedTest
     @CsvSource({
@@ -237,6 +276,70 @@ class BoardTest {
         assertEquals(y, point.y);
     }
 
-    // TODO: isValidPoint
-    // TODO: toString
+    @Test
+    void middle_PointIsNull_ExpectInvalidPoint() {
+        Point point = Board.middle(null, null);
+        assertEquals(-1, point.x);
+        assertEquals(-1, point.y);
+    }
+
+    @Test
+    void middle_PointIsWhiteTile_ExpectInvalidPoint() {
+        Point point = Board.middle(0, 0, 4, 4);
+        assertEquals(-1, point.x);
+        assertEquals(-1, point.y);
+    }
+
+    /*** To String ***/
+
+    @Test
+    void toString_AssertToStringAfterBoardIsCreated_ExpectDefaultString() {
+        Board board = new Board();
+        String expected = "model.Board"
+            + "[6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, "
+            + "0, 0, 0, 0, 0, 0, 0, 0, "
+            + "4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]";
+        assertEquals(expected, board.toString());
+    }
+
+    @Test
+    void toString_AssertToStringAfterBoardSetWithKings_ExpectKingIDs() {
+        Board board = new Board();
+
+        // Set board with kings
+        for (int i = 0; i < 12; i ++) {
+            board.set(i, board.BLACK_KING);
+            board.set(31 - i, board.WHITE_KING);
+        }
+
+
+        String expected = "model.Board"
+                + "[7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, "
+                + "0, 0, 0, 0, 0, 0, 0, 0, "
+                + "5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]";
+        assertEquals(expected, board.toString());
+    }
+
+    /*** Is Valid Point ***/
+
+    @ParameterizedTest
+    @MethodSource
+    void isValidPoint_ExerciseValidPoints_ExpectFalseIfNullOrWhiteTileOrOffBoard(Point point, boolean expected) {
+        assertEquals(expected, Board.isValidPoint(point));
+    }
+
+    /*** Methods for providing arguments to parameterized tests ***/
+
+    private static Stream<Arguments> isValidPoint_ExerciseValidPoints_ExpectFalseIfNullOrWhiteTileOrOffBoard() {
+        return Stream.of(
+            Arguments.of(null, false),                    // Null point, invalid
+            Arguments.of(new Point(0, 0), false),   // White tile, invalid
+            Arguments.of(new Point(4, 4), false),   // White tile, invalid
+            Arguments.of(new Point(-1, -1), false), // Under lower boundary, invalid
+            Arguments.of(new Point(1, 0), true),    // On lower boundary, valid
+            Arguments.of(new Point(3, 4), true),    // Nominal point, valid
+            Arguments.of(new Point(6, 7), true),    // On upper boundary, valid
+            Arguments.of(new Point(8, 8), false)    // Above upper boundary, invalid
+        );
+    }
 }
