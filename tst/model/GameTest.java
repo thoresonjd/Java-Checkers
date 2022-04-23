@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.awt.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,10 +39,45 @@ class GameTest {
     }
 
     @ParameterizedTest
+    @MethodSource
+    void move_expectFalse_whenStartOrEndIsNull(Point start, Point end) {
+        Game game = new Game();
+        assertFalse(game.move(start, end));
+    }
+
+    @Test
+    void move_expectFalse_whenBoardIsNull() {
+        Game game = new Game(null, true, -1);
+        assertFalse(game.move(new Point(), new Point()));
+    }
+
+    @Test
+    void getBoard_shouldReturnCopyOfBoard() {
+        Board originalBoard = new Board();
+        Game game = new Game(originalBoard, true, -1);
+        assertNotEquals(originalBoard, game.getBoard());
+    }
+
+    @Test
+    void isP1Turn_expectTrue_whenP1TurnSetToTrue() {
+        Game game = new Game();
+        game.setP1Turn(true);
+        assertTrue(game.isP1Turn());
+    }
+
+    @Test
+    void isP1Turn_expectFalse_whenP1TurnSetToTrue() {
+        Game game = new Game();
+        game.setP1Turn(false);
+        assertFalse(game.isP1Turn());
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = {
-            "000000000000000000000000000000001",      // On boundary:         exactly 33 characters
-            "0000000000000000000000000000000010",     // Just above boundary: 34 characters
-            "0000000000000000000000000000000010000"}) // Above boundary:      37 characters
+            "000000000000000000000000000000001",    // On boundary:         exactly 33 characters
+            "0000000000000000000000000000000010",   // Just above boundary: 34 characters
+            "0000000000000000000000000000000010000" // Above boundary:      37 characters
+    })
     void setGameState_shouldSetP1TurnToTrue_whenStateLengthIsGreaterThan32AndChar32Is1(String state) {
         Game game = new Game(new Board(), true, -1);
         game.setGameState(state);
@@ -54,7 +90,8 @@ class GameTest {
     @ValueSource(strings = {
             "000000000000000000000000000000000",
             "0000000000000000000000000000000000",
-            "0000000000000000000000000000000000000"})
+            "0000000000000000000000000000000000000"
+    })
     void setGameState_shouldSetP1TurnToFalse_whenStateLengthIsGreaterThan32AndChar32IsNot1(String state) {
         Game game = new Game(new Board(), true, -1);
         game.setGameState(state);
@@ -76,7 +113,8 @@ class GameTest {
     @ValueSource(strings = {
             "000000000000000000000000000000000x",
             "000000000000000000000000000000000x",
-            "000000000000000000000000000000000x000"})
+            "000000000000000000000000000000000x000"
+    })
     void setGameState_shouldSetSkipIndexToNegativeOne_whenIndex33IsNotAnInteger(String state) {
         Game game = new Game(new Board(), true, -1);
         game.setGameState(state);
@@ -94,6 +132,14 @@ class GameTest {
                 Arguments.of("0000000000000000000000000000000009", 9),
                 Arguments.of("000000000000000000000000000000000-1", -1),
                 Arguments.of("0000000000000000000000000000000001000", 1000)
+        );
+    }
+
+    private static Stream<Arguments> move_expectFalse_whenStartOrEndIsNull() {
+        return Stream.of(
+                Arguments.of(null, new Point()),
+                Arguments.of(new Point(), null),
+                Arguments.of(null, null)
         );
     }
 
