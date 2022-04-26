@@ -63,6 +63,7 @@ class MoveLogicTest {
     /* ---------------------------------------------------
     |  isSafe() Tests
     |  -------------------------------------------------*/
+    //TODO: Use parameterized tests to test different combos.
     @Test
     void isSafe_pass_boardNullCheckerNotNullExpectTrue(){
         assertTrue(MoveLogic.isSafe(null, new Point(0, 0)));
@@ -81,5 +82,14 @@ class MoveLogicTest {
     @Test
     void isSafe_pass_boardNotNullCheckerNotNullExpectTrue(){
         assertTrue(MoveLogic.isSafe(new Board(), new Point(0, 0)));
+    }
+
+    //TODO: isSafe_pass_boardIDIsEmptyExpectTrue Incomplete
+    @Test
+    void isSafe_pass_boardIDIsEmptyExpectTrue(){
+        Board b = new Board();
+
+        //int id = b.get(Board.toIndex(p));
+        assertTrue(MoveLogic.isSafe(b, new Point(1,0)));
     }
 }
