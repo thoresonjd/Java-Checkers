@@ -9,9 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.*;
 
 import java.awt.Point;
 import java.util.List;
@@ -52,12 +50,21 @@ class MoveLogicTest {
     }
 
     @Test
-    void isValidMove_pass_startIndexEqualToEndIndex(){
+    void isValidMove_pass_startIndexEqualToEndIndexExpectFalse(){
         assertFalse(MoveLogic.isValidMove(new Board(), true, 0, 0, 0));
     }
 
     @Test
-    void isValidMove_pass_validSkipIndexAndSkipIndexNotEqualToStartIndex(){
+    void isValidMove_pass_validSkipIndexAndSkipIndexNotEqualToStartIndexExpectFalse(){
         assertFalse(MoveLogic.isValidMove(new Board(), true, 2, 0, 3));
+    }
+
+
+    /* ---------------------------------------------------
+    |  isSafe() Tests
+    |  -------------------------------------------------*/
+    @Test
+    void isSafe_pass_boardNullCheckerNotNullExpectTrue(){
+        assertTrue(MoveLogic.isSafe(null, new Point(0, 0)));
     }
 }
