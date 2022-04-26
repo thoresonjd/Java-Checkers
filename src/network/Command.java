@@ -96,6 +96,9 @@ public class Command {
 	protected Socket createSocket(){
 		return new Socket();
 	}
+	protected Socket createSocket(String host, int port) throws IOException {
+		return new Socket(host, port);
+	}
 	
 	/**
 	 * Gets the output that will be sent for this command and is the
