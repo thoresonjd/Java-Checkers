@@ -6,10 +6,7 @@
 
 package network;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -65,13 +62,13 @@ public class Command {
 	 * occurred.
 	 * @see {@link #getOutput()}
 	 */
+
 	public String send(String host, int port) {
 		
 		String data = getOutput(), response = "";
 		try {
-			
 			// Write the response
-			Socket s = new Socket(host, port);
+			Socket s = createSocket();
 			PrintWriter writer = new PrintWriter(s.getOutputStream());
 			writer.println(data);
 			writer.flush();
@@ -87,7 +84,6 @@ public class Command {
 				response = response.substring(0, response.length() - 1);
 			}
 			s.close();
-			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -95,6 +91,10 @@ public class Command {
 		}
 		
 		return response;
+	}
+
+	protected Socket createSocket(){
+		return new Socket();
 	}
 	
 	/**
