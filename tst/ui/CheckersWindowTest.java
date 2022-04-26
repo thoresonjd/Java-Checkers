@@ -44,7 +44,7 @@ class CheckersWindowTest {
     /*** Restart ***/
 
     @Test
-    void restart() {
+    void restart_ExpectInitialBoardState_WhenWindowRestarts() {
         Player p1 = new ComputerPlayer();
         Player p2 = new ComputerPlayer();
         CheckersWindow window = new CheckersWindow(p1, p2);

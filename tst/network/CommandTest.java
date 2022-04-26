@@ -94,13 +94,16 @@ class CommandTest {
     void createSocket_ReturnSocket_WhenCorrectTriggered() {
         Command command = new Command("","");
         Socket s = command.createSocket();
+        assertTrue(s.toString().equals("Socket[unconnected]"));
     }
 
     @Test
     void createSocket_CatchConnectException_WhenServerConnectionRefused(){
         Command command = new Command("","");
-        Throwable exception = assertThrows(ConnectException.class, () -> command.createSocket("localhost",1234));
-        //assertEquals("expected messages", exception.getMessage());
+        Throwable exception = assertThrows(
+            ConnectException.class,
+            () -> command.createSocket("localhost",1234)
+        );
     }
 
     /*** getOutput ***/
@@ -109,12 +112,14 @@ class CommandTest {
     void getOutput_ReturnDataContent_WhenCorrectTriggered() {
         Command command = new Command("","");
         String data = command.getOutput();
+        assertTrue(data.equals("\n"));
     }
 
     @Test
     void getOutput_BreakForLoop_WhenNullBetweenParameter() {
         Command command = new Command("","a", null, "c");
         String data = command.getOutput();
+        assertTrue(data.equals("\na"));
     }
 
 
@@ -122,8 +127,8 @@ class CommandTest {
 
     @Test
     void getCommand_ReturnCommand_WhenCorrectTriggered() {
-        Command command = new Command("","");
-        command.getCommand();
+        Command command = new Command("command","");
+        assertTrue(command.getCommand().equals("command"));
     }
 
 
@@ -133,6 +138,7 @@ class CommandTest {
     void setCommand_SetCommand_WhenCorrectInput() {
         Command command = new Command("","");
         command.setCommand("command");
+        assertTrue(command.getCommand().equals("command"));
     }
 
 
@@ -140,8 +146,12 @@ class CommandTest {
 
     @Test
     void getData_ReturnDataArray_WhenCorrectTriggered() {
-        Command command = new Command("","");
-        command.getData();
+        Command command = new Command("","data1", "data2", "data3");
+        String[] data = command.getData();
+        assertEquals(data.length, 3);
+        assertTrue(data[0].equals("data1"));
+        assertTrue(data[1].equals("data2"));
+        assertTrue(data[2].equals("data3"));
     }
 
 
@@ -150,6 +160,11 @@ class CommandTest {
     @Test
     void setData_SetData_WhenCorrectInput() {
         Command command = new Command("","");
-        command.setData(new String[1]);
+        command.setData(new String[]{"data1", "data2", "data3"});
+        String[] data = command.getData();
+        assertEquals(data.length, 3);
+        assertTrue(data[0].equals("data1"));
+        assertTrue(data[1].equals("data2"));
+        assertTrue(data[2].equals("data3"));
     }
 }
