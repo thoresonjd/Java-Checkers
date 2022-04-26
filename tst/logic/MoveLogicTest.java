@@ -72,4 +72,9 @@ class MoveLogicTest {
     void isSafe_pass_boardNotNullCheckerNullExpectTrue(){
         assertTrue(MoveLogic.isSafe(new Board(), null));
     }
+
+    @Test
+    void isSafe_pass_boardNullCheckerNullExpectTrue(){
+        assertTrue(MoveLogic.isSafe(null, null));
+    }
 }
