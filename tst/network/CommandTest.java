@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -93,6 +94,13 @@ class CommandTest {
     void createSocket_ReturnSocket_WhenCorrectTriggered() {
         Command command = new Command("","");
         Socket s = command.createSocket();
+    }
+
+    @Test
+    void createSocket_CatchConnectException_WhenServerConnectionRefused(){
+        Command command = new Command("","");
+        Throwable exception = assertThrows(ConnectException.class, () -> command.createSocket("localhost",1234));
+        //assertEquals("expected messages", exception.getMessage());
     }
 
     /*** getOutput ***/
