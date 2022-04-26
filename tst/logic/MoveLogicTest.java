@@ -42,8 +42,12 @@ class MoveLogicTest {
         assertFalse(MoveLogic.isValidMove(b, true, 0, 0, 0));
     }
 
-    @Test
-    void isValidMove_pass_invalidStartIndexExpectFalse(){
-        assertFalse(MoveLogic.isValidMove(new Board(), true, -1, 0, 0));
+    @ParameterizedTest(name = "startIndex = {0}, endIndex = {1}")
+    @CsvSource({
+            "-1, 0", //invalid startIndex
+            "0, -1" //invalid endIndex
+    })
+    void isValidMove_pass_invalidIndexExpectFalse(int start, int end){
+        assertFalse(MoveLogic.isValidMove(new Board(), true, start, end, 0));
     }
 }
