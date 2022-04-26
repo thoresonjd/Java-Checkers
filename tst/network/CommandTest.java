@@ -26,15 +26,6 @@ class CommandTest {
     void tearDown() {
     }
 
-
-    /*** constructor ***/
-
-    @Test
-    void Command_CreateInstance_WhenCorrectInput() {
-        Command command = new Command("","");
-    }
-
-
     /*** send ***/
 
     @Test
