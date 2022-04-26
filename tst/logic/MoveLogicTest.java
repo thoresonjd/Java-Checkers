@@ -27,10 +27,18 @@ class MoveLogicTest {
     void tearDown() {
     }
 
-    /* isValidMove() Tests */
+    /* ---------------------------------------------------
+    |  isValidMove() Tests
+    |  -------------------------------------------------*/
     @Test
     void isValidMove_pass_gameIsNullExpectFalse(){
         Game game = null;
         assertFalse(MoveLogic.isValidMove(null, 0, 0));
+    }
+
+    @Test
+    void isValidMove_pass_gameBoardIsNullExpectFalse(){
+        Board b = null;
+        assertFalse(MoveLogic.isValidMove(b, true, 0, 0, 0));
     }
 }
