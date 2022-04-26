@@ -41,4 +41,9 @@ class MoveLogicTest {
         Board b = null;
         assertFalse(MoveLogic.isValidMove(b, true, 0, 0, 0));
     }
+
+    @Test
+    void isValidMove_pass_invalidStartIndexExpectFalse(){
+        assertFalse(MoveLogic.isValidMove(new Board(), true, -1, 0, 0));
+    }
 }
