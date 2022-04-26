@@ -2,6 +2,8 @@ package logic;
 
 import model.Board;
 import static org.mockito.Mockito.*;
+
+import model.Game;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,5 +25,12 @@ class MoveLogicTest {
 
     @AfterEach
     void tearDown() {
+    }
+
+    /* isValidMove() Tests */
+    @Test
+    void isValidMove_pass_gameIsNullExpectFalse(){
+        Game game = null;
+        assertFalse(MoveLogic.isValidMove(null, 0, 0));
     }
 }
