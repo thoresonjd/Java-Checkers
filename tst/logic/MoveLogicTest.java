@@ -50,4 +50,9 @@ class MoveLogicTest {
     void isValidMove_pass_invalidIndexExpectFalse(int start, int end){
         assertFalse(MoveLogic.isValidMove(new Board(), true, start, end, 0));
     }
+
+    @Test
+    void isValidMove_pass_startIndexEqualToEndIndex(){
+        assertFalse(MoveLogic.isValidMove(new Board(), true, 0, 0, 0));
+    }
 }
