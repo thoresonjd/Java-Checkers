@@ -58,6 +58,7 @@ class MoveLogicTest {
     void isValidMove_pass_validSkipIndexAndSkipIndexNotEqualToStartIndexExpectFalse(){
         assertFalse(MoveLogic.isValidMove(new Board(), true, 2, 0, 3));
     }
+    /* -------------------------------------------------*/
 
 
     /* ---------------------------------------------------
