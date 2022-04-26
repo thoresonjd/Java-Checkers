@@ -92,4 +92,13 @@ class MoveLogicTest {
         //int id = b.get(Board.toIndex(p));
         assertTrue(MoveLogic.isSafe(b, new Point(1,0)));
     }
+
+    //TODO: isSafe_pass_moveGeneratorIsValidSkipExpectFalse Incomplete
+    @Test
+    void isSafe_pass_moveGeneratorIsValidSkipExpectFalse(){
+        Board b = new Board();
+        Point p = new Point(0,0);
+
+        assertFalse(MoveLogic.isSafe(b, p));
+    }
 }
