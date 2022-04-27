@@ -64,6 +64,10 @@ class MoveLogicTest {
     /* ---------------------------------------------------
     |  validateDistance() Tests
     |  -------------------------------------------------*/
+    @Test
+    void validateDistance_pass_dxDoesNotEqualdyExpectFalse(){
+
+    }
 
     /* -------------------------------------------------*/
 
