@@ -74,6 +74,10 @@ class MoveLogicTest {
 
     }
 
+    @Test
+    void validateDistance_pass_dxIs0ExpectFalse(){
+
+    }
     /* -------------------------------------------------*/
 
     /* ---------------------------------------------------
