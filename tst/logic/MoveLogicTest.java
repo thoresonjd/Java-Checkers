@@ -1,6 +1,8 @@
 package logic;
 
 import model.Board;
+
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.*;
 
 import model.Game;
@@ -83,6 +85,24 @@ class MoveLogicTest {
     |  isSafe() Tests
     |  -------------------------------------------------*/
     //TODO: Use parameterized tests to test different combos.
+    @ParameterizedTest
+    @MethodSource("nullBoardAndOrNullCheckerStream")
+    void isSafe_pass_checkBoardNullAndOrCheckerNullExpectTrue(Board b, Point p){
+        assertTrue(MoveLogic.isSafe(b, p));
+    }
+
+    static Stream<Object> nullBoardAndOrNullCheckerStream(){
+        Object b = new Board();
+        Object p = new Point(0,0);
+        return Stream.of(
+                arguments(null, p),
+                arguments(b, null),
+                arguments(null, null),
+                arguments(b, p)
+        );
+
+    }
+
     @Test
     void isSafe_pass_boardNullCheckerNotNullExpectTrue(){
         assertTrue(MoveLogic.isSafe(null, new Point(0, 0)));
