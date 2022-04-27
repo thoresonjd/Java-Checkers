@@ -103,26 +103,6 @@ class MoveLogicTest {
 
     }
 
-    @Test
-    void isSafe_pass_boardNullCheckerNotNullExpectTrue(){
-        assertTrue(MoveLogic.isSafe(null, new Point(0, 0)));
-    }
-
-    @Test
-    void isSafe_pass_boardNotNullCheckerNullExpectTrue(){
-        assertTrue(MoveLogic.isSafe(new Board(), null));
-    }
-
-    @Test
-    void isSafe_pass_boardNullCheckerNullExpectTrue(){
-        assertTrue(MoveLogic.isSafe(null, null));
-    }
-
-    @Test
-    void isSafe_pass_boardNotNullCheckerNotNullExpectTrue(){
-        assertTrue(MoveLogic.isSafe(new Board(), new Point(0, 0)));
-    }
-
     //TODO: isSafe_pass_boardIDIsEmptyExpectTrue Incomplete
     @Test
     void isSafe_pass_boardIDIsEmptyExpectTrue(){
