@@ -102,4 +102,5 @@ class MoveLogicTest {
 
         assertFalse(MoveLogic.isSafe(b, p));
     }
+    /* -------------------------------------------------*/
 }
