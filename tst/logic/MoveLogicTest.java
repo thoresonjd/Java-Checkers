@@ -84,7 +84,6 @@ class MoveLogicTest {
     /* ---------------------------------------------------
     |  isSafe() Tests
     |  -------------------------------------------------*/
-    //TODO: Use parameterized tests to test different combos.
     @ParameterizedTest
     @MethodSource("nullBoardAndOrNullCheckerStream")
     void isSafe_pass_checkBoardNullAndOrCheckerNullExpectTrue(Board b, Point p){
