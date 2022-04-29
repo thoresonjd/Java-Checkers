@@ -37,8 +37,7 @@ class MoveLogicTest {
 
     @Test
     void isValidMove_pass_gameBoardIsNullExpectFalse(){
-        Board b = null;
-        assertFalse(MoveLogic.isValidMove(b, true, 0, 0, 0));
+        assertFalse(MoveLogic.isValidMove(null, true, 0, 0, 0));
     }
 
     @ParameterizedTest(name = "startIndex = {0}, endIndex = {1}")
