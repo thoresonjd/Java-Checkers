@@ -50,9 +50,13 @@ class MoveLogicTest {
         assertFalse(MoveLogic.isValidMove(new Board(), true, start, end, 0));
     }
 
-    @Test
-    void isValidMove_pass_startIndexEqualToEndIndexExpectFalse(){
-        assertFalse(MoveLogic.isValidMove(new Board(), true, 0, 0, 0));
+    @ParameterizedTest(name = "isValidMove: startIndex = {0}, endIndex = {1}, skip = {2}")
+    @CsvSource({
+            "0, 0, 0",
+            "2, 0, 3"
+    })
+    void isValidMove_pass_startEndAndSkipIndexVariationsAllExpectFalse(int start, int end, int skip){
+        assertFalse(MoveLogic.isValidMove(new Board(), true, start, end, skip));
     }
 
     @Test
