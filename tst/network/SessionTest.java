@@ -3,6 +3,8 @@ package network;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.net.Socket;
 
@@ -18,103 +20,153 @@ class SessionTest {
     void tearDown() {
     }
 
-    /*** constructor ***/
-
-    @Test
-    void Session_CreateObject_WhenCorrectTriggered() {
-        ConnectionListener connectionListener = new ConnectionListener();
-        Session session1 = new Session(connectionListener, "", "", 0);
-        Session session2 = new Session("",0,"",0);
-    }
-
     /*** getListener ***/
 
     @Test
-    void getListener_ReturnListener_WhenCorrectTriggered() {
+    void getListener_ExpectProvidedListener_WhenListenerProvidedViaConstructor() {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
-        session.getListener();
+        ConnectionListener res = session.getListener();
+        assertEquals(res, connectionListener);
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
     }
 
-    /*** setListener ***/
-
     @Test
-    void setListener_SetListenerObject_WhenCorrectInput() {
+    void getListener_ExpectProvidedListener_WhenListenerProvidedViaSetter() {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
         session.setListener(connectionListener);
+        ConnectionListener res = session.getListener();
+        assertEquals(res, connectionListener);
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
+    }
+
+    @Test
+    void getListener_ExpectNonNullListener_WhenNoListenerProvided() {
+        Session session = new Session("", 0, "", 0);
+        assertNotNull(session.getListener());
     }
 
     /*** getSid ***/
 
-    @Test
-    void getSid_ReturnSid_WhenCorrectTriggered() {
+    @ParameterizedTest
+    @CsvSource({ "1", "2", "3", "4", "5"})
+    void getSid_ExpectProvidedSid_WhenSidProvidedViaConstructor(String sid) {
         ConnectionListener connectionListener = new ConnectionListener();
-        Session session = new Session(connectionListener, "", "", 0);
-        session.getSid();
+        Session session = new Session(connectionListener, sid, "", 0);
+        assertTrue(session.getSid().equals(sid));
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
     }
 
-    /*** setSid ***/
-
-    @Test
-    void setSid_SetSidValue_WhenCorrectInput() {
+    @ParameterizedTest
+    @CsvSource({ "1", "2", "3", "4", "5"})
+    void getSid_ExpectProvidedSid_WhenSidProvidedViaSetter(String sid) {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
-        session.setSid("");
+        session.setSid(sid);
+        assertTrue(session.getSid().equals(sid));
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
     }
 
     /*** getDestinationHost ***/
 
-    @Test
-    void getDestinationHost_GetDestinationHost_WhenCorrectTriggered() {
+    @ParameterizedTest
+    @CsvSource({ "1", "2", "3", "4", "5"})
+    void getDestinationHost_ExpectProvidedHost_WhenHostProvidedViaConstructor(String destHost) {
         ConnectionListener connectionListener = new ConnectionListener();
-        Session session = new Session(connectionListener, "", "", 0);
-        session.getDestinationHost();
+        Session session = new Session(connectionListener, "", destHost, 0);
+        assertTrue(session.getDestinationHost().equals(destHost));
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
     }
 
-    /*** setDestinationHost ***/
 
-    @Test
-    void setDestinationHost_GetDestinationHost_WhenCorrectInput() {
+    @ParameterizedTest
+    @CsvSource({ "1", "2", "3", "4", "5"})
+    void getDestinationHost_ExpectProvidedHost_WhenHostProvidedViaSetter(String destHost) {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
-        session.setDestinationHost("");
+        session.setDestinationHost(destHost);
+        assertTrue(session.getDestinationHost().equals(destHost));
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
     }
 
     /*** getDestinationPort ***/
 
-    @Test
-    void getDestinationPort_GetDestinationPort_WhenCorrectTriggered() {
+    @ParameterizedTest
+    @CsvSource({ "1000", "2000", "3000", "4000", "5000"})
+    void getDestinationPort_ExpectProvidedPort_WhenPortProvidedViaConstructor(int destPort) {
         ConnectionListener connectionListener = new ConnectionListener();
-        Session session = new Session(connectionListener, "", "", 0);
-        session.getDestinationPort();
+        Session session = new Session(connectionListener, "", "", destPort);
+        assertEquals(session.getDestinationPort(), destPort);
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
     }
 
-    /*** setDestinationPort ***/
-
-    @Test
-    void setDestinationPort_SetDestinationPort_WhenCorrectInput() {
+    @ParameterizedTest
+    @CsvSource({ "1000", "2000", "3000", "4000", "5000"})
+    void getDestinationPort_ExpectProvidedPort_WhenPortProvidedViaSetter(int destPort) {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
-        session.setDestinationPort(0);
+        session.setDestinationPort(destPort);
+        assertEquals(session.getDestinationPort(), destPort);
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
     }
 
     /*** getSourcePort ***/
 
-    @Test
-    void getSourcePort_GetSourcePort_WhenCorrectTriggered() {
-        ConnectionListener connectionListener = new ConnectionListener();
+    @ParameterizedTest
+    @CsvSource({"1000", "2000", "3000", "4000", "5000"})
+    void getSourcePort_ExpectProvidedPort_WhenPortProvided(int port) {
+        ConnectionListener connectionListener = new ConnectionListener(port);
         Session session = new Session(connectionListener, "", "", 0);
-        session.getSourcePort();
+        assertEquals(port, session.getSourcePort());
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
     }
 
-    /*** setSourcePort ***/
+    @ParameterizedTest
+    @CsvSource({"-1000", "-2", "-1", "0"})
+    void getSourcePort_ExpectAutoGeneratedPort_WhenInvalidPortProvided(int port) {
+        ConnectionListener connectionListener = new ConnectionListener(port);
+        Session session = new Session(connectionListener, "", "", 0);
+        assertNotEquals(port, session.getSourcePort());
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
+    }
 
     @Test
-    void setSourcePort_SetSourcePort_WhenCorrectInput() {
+    void getSourcePort_ExpectInvalidPort_WhenListenerIsNull() {
+        Session session = new Session(null, "", "", 0);
+        assertEquals(-1, session.getSourcePort());
+    }
+
+    @ParameterizedTest
+    @CsvSource({ "1000", "2000", "3000", "4000", "5000"})
+    void getSourcePort_ExpectProvidedPort_WhenPortProvidedViaSetter(int srcPort) {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
-        session.setSourcePort(0);
+        session.setSourcePort(srcPort);
+        assertEquals(srcPort, session.getSourcePort());
+
+        // Stop listening at port to prevent tests from bleeding into one another
+        connectionListener.stopListening();
     }
 
 }
