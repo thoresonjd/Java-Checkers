@@ -38,5 +38,11 @@ class ConnectionHandlerTest {
         assertNotEquals(port, listener.getPort());
     }
 
+    @Test
+    void getListener_ExpectNullListener_WhenNoListenerProvided() {
+        ConnectionHandler handler = new ConnectionHandler(null, new Socket());
+        assertNull(handler.getListener());
+    }
+
 
 }
