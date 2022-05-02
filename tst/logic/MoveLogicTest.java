@@ -63,6 +63,28 @@ class MoveLogicTest {
         Board board = new Board();
         assertFalse(MoveLogic.isValidMove(board, true, 8, 14, 8));
     }
+
+    @ParameterizedTest
+    @CsvSource({
+        "4, 0, 4",
+        "5, 0, 5",
+        "5, 1, 5",
+        "6, 1, 6",
+        "6, 2, 6",
+        "7, 2, 7",
+        "7, 3, 7"
+    })
+    void isValidMove_ExpectFalseFromValidateDistance_WhenCheckerIsMovedInTheWrongDirection(int start, int end, int skip){
+        Board board = new Board();
+
+        // Set empty tiles so checkers can move backwards
+        board.set(1, 0, board.EMPTY);
+        board.set(3, 0, board.EMPTY);
+        board.set(5, 0, board.EMPTY);
+        board.set(7, 0, board.EMPTY);
+
+        assertFalse(MoveLogic.isValidMove(board, true, start, end, skip));
+    }
     /* -------------------------------------------------*/
 
 
