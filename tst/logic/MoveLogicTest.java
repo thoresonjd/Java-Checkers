@@ -86,14 +86,25 @@ class MoveLogicTest {
         assertFalse(MoveLogic.isValidMove(board, true, start, end, skip));
     }
 
-    @Test
-    void isValidMove_ExpectFalseFromValidateDistance_WhenCheckerSkipsOverInvalidTile(){
+    @ParameterizedTest
+    @CsvSource({
+        "4, 13, 4",
+        "5, 12, 5",
+        "5, 14, 5",
+        "6, 13, 6",
+        "6, 15, 6",
+        "7, 14, 7"
+    })
+    void isValidMove_ExpectFalseFromValidateDistance_WhenCheckerSkipsOverInvalidTile(int start, int end, int skip){
         Board board = new Board();
 
-        // Set invalid tile to skip over
+        // Set invalid tiles to skip over
         board.set(1, 2, Board.INVALID);
+        board.set(3, 2, Board.INVALID);
+        board.set(5, 2, Board.INVALID);
+        board.set(7, 2, Board.INVALID);
 
-        assertFalse(MoveLogic.isValidMove(board, true, 4, 13, 4));
+        assertFalse(MoveLogic.isValidMove(board, true, start, end, skip));
     }
 
     /* -------------------------------------------------*/
