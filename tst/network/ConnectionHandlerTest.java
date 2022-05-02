@@ -44,5 +44,13 @@ class ConnectionHandlerTest {
         assertNull(handler.getListener());
     }
 
+    /*** Get Socket ***/
 
+    @Test
+    void getSocket_ExpectUnconnectedSocketFromListener_WhenSocketIsUnconnected() {
+        ConnectionHandler handler = new ConnectionHandler(new ConnectionListener(), new Socket());
+        Socket socket = handler.getSocket();
+        String expected = "Socket[unconnected]";
+        assertTrue(expected.equals(socket.toString()));
+    }
 }
