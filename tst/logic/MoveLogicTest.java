@@ -85,22 +85,17 @@ class MoveLogicTest {
 
         assertFalse(MoveLogic.isValidMove(board, true, start, end, skip));
     }
-    /* -------------------------------------------------*/
-
-
-    /* ---------------------------------------------------
-    |  validateDistance() Tests
-    |  -------------------------------------------------*/
 
     @Test
-    void validateDistance_pass_dxIsGreaterThan2ExpectFalse(){
+    void isValidMove_ExpectFalseFromValidateDistance_WhenCheckerSkipsOverInvalidTile(){
+        Board board = new Board();
 
+        // Set invalid tile to skip over
+        board.set(1, 2, Board.INVALID);
+
+        assertFalse(MoveLogic.isValidMove(board, true, 4, 13, 4));
     }
 
-    @Test
-    void validateDistance_pass_dxIs0ExpectFalse(){
-
-    }
     /* -------------------------------------------------*/
 
     /* ---------------------------------------------------
