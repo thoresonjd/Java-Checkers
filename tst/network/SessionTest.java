@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.net.Socket;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SessionTest {
@@ -58,7 +56,7 @@ class SessionTest {
     void getSid_ExpectProvidedSid_WhenSidProvidedViaConstructor(String sid) {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, sid, "", 0);
-        assertTrue(session.getSid().equals(sid));
+        assertEquals(session.getSid(), sid);
 
         // Stop listening at port to prevent tests from bleeding into one another
         connectionListener.stopListening();
@@ -70,7 +68,7 @@ class SessionTest {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
         session.setSid(sid);
-        assertTrue(session.getSid().equals(sid));
+        assertEquals(session.getSid(), sid);
 
         // Stop listening at port to prevent tests from bleeding into one another
         connectionListener.stopListening();
@@ -83,7 +81,7 @@ class SessionTest {
     void getDestinationHost_ExpectProvidedHost_WhenHostProvidedViaConstructor(String destHost) {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", destHost, 0);
-        assertTrue(session.getDestinationHost().equals(destHost));
+        assertEquals(session.getDestinationHost(), destHost);
 
         // Stop listening at port to prevent tests from bleeding into one another
         connectionListener.stopListening();
@@ -96,7 +94,7 @@ class SessionTest {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
         session.setDestinationHost(destHost);
-        assertTrue(session.getDestinationHost().equals(destHost));
+        assertEquals(session.getDestinationHost(), destHost);
 
         // Stop listening at port to prevent tests from bleeding into one another
         connectionListener.stopListening();

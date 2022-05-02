@@ -87,8 +87,7 @@ class BoardTest {
         "100, 100, -1"    // Really high, off board
     })
     void toIndex_PointToIndexConversion(int x, int y, int expected) {
-        Board board = new Board();
-        assertEquals(expected, board.toIndex(new Point(x, y)));
+        assertEquals(expected, Board.toIndex(new Point(x, y)));
     }
 
     /*** Set ***/
@@ -98,10 +97,10 @@ class BoardTest {
         Board board = new Board();
 
         // Set board with kings
-        board.set(1, 0, board.BLACK_KING);
-        board.set(3, 0, board.BLACK_KING);
-        board.set(5, 0, board.BLACK_KING);
-        board.set(7, 0, board.BLACK_KING);
+        board.set(1, 0, Board.BLACK_KING);
+        board.set(3, 0, Board.BLACK_KING);
+        board.set(5, 0, Board.BLACK_KING);
+        board.set(7, 0, Board.BLACK_KING);
 
         // Assert black kings
         List<Point> bKings = board.find(Board.BLACK_KING);
@@ -120,7 +119,7 @@ class BoardTest {
 
         // Set board entirely empty
         for (int i = 0; i <= 31; i ++) {
-            board.set(i, board.EMPTY);
+            board.set(i, Board.EMPTY);
         }
 
         // Assert all tiles empty
@@ -147,8 +146,8 @@ class BoardTest {
 
         // Set board with kings
         for (int i = 0; i < 12; i ++) {
-            board.set(i, board.BLACK_KING);
-            board.set(31 - i, board.WHITE_KING);
+            board.set(i, Board.BLACK_KING);
+            board.set(31 - i, Board.WHITE_KING);
         }
 
         // Assert white kings
@@ -182,8 +181,8 @@ class BoardTest {
 
         // Set board in reverse
         for (int i = 0; i < 12; i ++) {
-            board.set(i, board.WHITE_CHECKER);
-            board.set(31 - i, board.BLACK_CHECKER);
+            board.set(i, Board.WHITE_CHECKER);
+            board.set(31 - i, Board.BLACK_CHECKER);
         }
 
         // Assert black checkers on bottom
@@ -308,8 +307,8 @@ class BoardTest {
 
         // Set board with kings
         for (int i = 0; i < 12; i ++) {
-            board.set(i, board.BLACK_KING);
-            board.set(31 - i, board.WHITE_KING);
+            board.set(i, Board.BLACK_KING);
+            board.set(31 - i, Board.WHITE_KING);
         }
 
 
