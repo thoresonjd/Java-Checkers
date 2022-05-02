@@ -45,8 +45,8 @@ class MoveGeneratorTest {
     }
 
     @Test
-    void isValidSkip_ExpectFalse_WhenStartIndexIsInvalid() {
-        boolean isValidSkip = MoveGenerator.isValidSkip(new Board(), 0, 0);
+    void isValidSkip_ExpectFalse_WhenStartIndexIsInvalidAndEndIndexIsEmpty() {
+        boolean isValidSkip = MoveGenerator.isValidSkip(new Board(), -1, 12);
         assertFalse(isValidSkip);
     }
 }
