@@ -21,7 +21,7 @@ class CheckersConnectionTest {
     /*** actionPerformed ***/
 
     @Test
-    void actionPerformed_doNothing_WhenTriggered() {
+    void actionPerformed_ExerciseThisMethodBecauseItIsEmpty_WhenTriggered() {
         CheckersConnection checkersConnection = new CheckersConnection();
         checkersConnection.actionPerformed(new ActionEvent(0, 0, ""));
     }
