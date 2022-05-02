@@ -4,8 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ComputerPlayerTest {
@@ -36,7 +34,7 @@ class ComputerPlayerTest {
         player.updateGame(game);
 
         String boardAfterMove = game.getBoard().toString();
-        assertFalse(initialBoard.equals(boardAfterMove));
+        assertNotEquals(initialBoard, boardAfterMove);
     }
 
     @Test
@@ -49,7 +47,7 @@ class ComputerPlayerTest {
         player.updateGame(game);
 
         String boardAfterMove = game.getBoard().toString();
-        assertTrue(initialBoard.equals(boardAfterMove));
+        assertEquals(initialBoard, boardAfterMove);
     }
 
     @Test
@@ -66,6 +64,6 @@ class ComputerPlayerTest {
         player.updateGame(game);
 
         String boardAfterMove = game.getBoard().toString();
-        assertFalse(initialBoard.equals(boardAfterMove));
+        assertNotEquals(initialBoard, boardAfterMove);
     }
 }
