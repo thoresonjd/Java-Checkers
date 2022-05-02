@@ -100,13 +100,10 @@ class MoveLogicTest {
 
     }
 
-    //TODO: isSafe_pass_boardIDIsEmptyExpectTrue Incomplete
     @Test
     void isSafe_pass_boardIDIsEmptyExpectTrue(){
         Board b = new Board();
-
-        //int id = b.get(Board.toIndex(p));
-        assertTrue(MoveLogic.isSafe(b, new Point(1,0)));
+        assertTrue(MoveLogic.isSafe(b, new Point(0,3)));
     }
 
     //TODO: isSafe_pass_moveGeneratorIsValidSkipExpectFalse Incomplete
