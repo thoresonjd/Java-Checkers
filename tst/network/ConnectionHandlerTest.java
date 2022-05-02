@@ -74,4 +74,10 @@ class ConnectionHandlerTest {
         ConnectionHandler handler = new ConnectionHandler(listener, new Socket());
         handler.run();
     }
+
+    @Test
+    void run_ExerciseRun_WhenListenerIsNull() {
+        ConnectionHandler handler = new ConnectionHandler(new ConnectionListener(), new Socket());
+        handler.run();
+    }
 }
