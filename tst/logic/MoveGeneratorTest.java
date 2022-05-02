@@ -27,4 +27,12 @@ class MoveGeneratorTest {
         List<Point> moves = MoveGenerator.getMoves(null, null);
         assertTrue(moves.isEmpty());
     }
+
+    /*** Get Skips ***/
+
+    @Test
+    void getSkips_ExpectEmptyList_WhenBoardIsNull() {
+        List<Point> skips = MoveGenerator.getSkips(null, null);
+        assertTrue(skips.isEmpty());
+    }
 }
