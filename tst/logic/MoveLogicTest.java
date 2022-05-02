@@ -57,16 +57,18 @@ class MoveLogicTest {
     void isValidMove_pass_startEndAndSkipIndexVariationsAllExpectFalse(int start, int end, int skip){
         assertFalse(MoveLogic.isValidMove(new Board(), true, start, end, skip));
     }
+
+    @Test
+    void isValidMove_ExpectFalseFromValidateDistance_WhenDeltaXDoesNotEqualDeltaY(){
+        Board board = new Board();
+        assertFalse(MoveLogic.isValidMove(board, true, 8, 14, 8));
+    }
     /* -------------------------------------------------*/
 
 
     /* ---------------------------------------------------
     |  validateDistance() Tests
     |  -------------------------------------------------*/
-    @Test
-    void validateDistance_pass_dxDoesNotEqualdyExpectFalse(){
-
-    }
 
     @Test
     void validateDistance_pass_dxIsGreaterThan2ExpectFalse(){
