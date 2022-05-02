@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,5 +54,24 @@ class ConnectionHandlerTest {
         Socket socket = handler.getSocket();
         String expected = "Socket[unconnected]";
         assertTrue(expected.equals(socket.toString()));
+    }
+
+    /*** Run ***/
+
+    @Test
+    void run_ExerciseRun_WhenListenerIsNotNull() {
+
+        // Set up listener
+        ConnectionListener listener = new ConnectionListener();
+        listener.setConnectionHandler(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                return; // do nothing
+            }
+        });
+
+        // Run handler
+        ConnectionHandler handler = new ConnectionHandler(listener, new Socket());
+        handler.run();
     }
 }
