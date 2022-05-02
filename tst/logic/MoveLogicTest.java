@@ -78,10 +78,10 @@ class MoveLogicTest {
         Board board = new Board();
 
         // Set empty tiles so checkers can move backwards
-        board.set(1, 0, board.EMPTY);
-        board.set(3, 0, board.EMPTY);
-        board.set(5, 0, board.EMPTY);
-        board.set(7, 0, board.EMPTY);
+        board.set(1, 0, Board.EMPTY);
+        board.set(3, 0, Board.EMPTY);
+        board.set(5, 0, Board.EMPTY);
+        board.set(7, 0, Board.EMPTY);
 
         assertFalse(MoveLogic.isValidMove(board, true, start, end, skip));
     }
