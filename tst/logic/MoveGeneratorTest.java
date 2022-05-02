@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.verification.MockAwareVerificationMode;
 
 import java.awt.Point;
 import java.util.List;
@@ -34,5 +35,13 @@ class MoveGeneratorTest {
     void getSkips_ExpectEmptyList_WhenBoardIsNull() {
         List<Point> skips = MoveGenerator.getSkips(null, null);
         assertTrue(skips.isEmpty());
+    }
+
+    /*** Is Valid Skip ***/
+
+    @Test
+    void isValidSkip_ExpectFalse_WhenBoardIsNull() {
+        boolean isValidSkip = MoveGenerator.isValidSkip(null, 0, 0);
+        assertFalse(isValidSkip);
     }
 }
