@@ -85,7 +85,7 @@ class CommandTest {
     void createSocket_ReturnSocket_WhenCorrectTriggered() {
         Command command = new Command("","");
         Socket s = command.createSocket();
-        assertTrue(s.toString().equals("Socket[unconnected]"));
+        assertEquals("Socket[unconnected]", s.toString());
     }
 
     @Test
@@ -103,14 +103,14 @@ class CommandTest {
     void getOutput_ReturnDataContent_WhenCorrectTriggered() {
         Command command = new Command("","");
         String data = command.getOutput();
-        assertTrue(data.equals("\n"));
+        assertEquals("\n", data);
     }
 
     @Test
     void getOutput_BreakForLoop_WhenNullBetweenParameter() {
         Command command = new Command("","a", null, "c");
         String data = command.getOutput();
-        assertTrue(data.equals("\na"));
+        assertEquals("\na", data);
     }
 
 
@@ -119,7 +119,7 @@ class CommandTest {
     @Test
     void getCommand_ReturnCommand_WhenCorrectTriggered() {
         Command command = new Command("command","");
-        assertTrue(command.getCommand().equals("command"));
+        assertEquals("command", command.getCommand());
     }
 
 
@@ -129,7 +129,7 @@ class CommandTest {
     void setCommand_SetCommand_WhenCorrectInput() {
         Command command = new Command("","");
         command.setCommand("command");
-        assertTrue(command.getCommand().equals("command"));
+        assertEquals("command", command.getCommand());
     }
 
 
@@ -140,9 +140,9 @@ class CommandTest {
         Command command = new Command("","data1", "data2", "data3");
         String[] data = command.getData();
         assertEquals(data.length, 3);
-        assertTrue(data[0].equals("data1"));
-        assertTrue(data[1].equals("data2"));
-        assertTrue(data[2].equals("data3"));
+        assertEquals("data1", data[0]);
+        assertEquals("data2", data[1]);
+        assertEquals("data3", data[2]);
     }
 
 
@@ -154,8 +154,8 @@ class CommandTest {
         command.setData(new String[]{"data1", "data2", "data3"});
         String[] data = command.getData();
         assertEquals(data.length, 3);
-        assertTrue(data[0].equals("data1"));
-        assertTrue(data[1].equals("data2"));
-        assertTrue(data[2].equals("data3"));
+        assertEquals("data1", data[0]);
+        assertEquals("data2", data[1]);
+        assertEquals("data3", data[2]);
     }
 }
