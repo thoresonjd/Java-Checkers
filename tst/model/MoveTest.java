@@ -135,7 +135,7 @@ class MoveTest {
         Move move = new Move(sIndex, eIndex);
         move.setWeight(wt);
         String result = move.toString();
-        assertTrue(exp.equals(result));
+        assertEquals(exp, result);
     }
 
     /*** Methods for providing arguments to parameterized tests ***/
