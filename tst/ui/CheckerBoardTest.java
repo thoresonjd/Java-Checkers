@@ -90,6 +90,24 @@ class CheckerBoardTest {
         assertEquals(expected, actual);
     }
 
+    /*** setDarkTile ***/
+
+    @Test
+    void setDarkTile_ExpectBlack_WhenDarkTileIsNull() {
+        // Set up
+        Player player1 = new NetworkPlayer();
+        Player player2 = new NetworkPlayer();
+        CheckersWindow window = new CheckersWindow();
+        Game game = new Game();
+        CheckerBoard board = new CheckerBoard(window, game, player1, player2);
+
+        // Set light tile
+        board.setDarkTile(null);
+        Color expected = Color.BLACK;
+        Color actual = board.getDarkTile();
+        assertEquals(expected, actual);
+    }
+
     /*** update ***/
 
     @Test
