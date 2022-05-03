@@ -32,4 +32,14 @@ class CheckerBoardTest {
         CheckerBoard board = new CheckerBoard(window, game, player1, player2);
         board.update();
     }
+
+    @Test
+    void update_Exercise_WhenPlayersAreComputerPlayers() {
+        Player player1 = new ComputerPlayer();
+        Player player2 = new ComputerPlayer();
+        CheckersWindow window = new CheckersWindow();
+        Game game = new Game();
+        CheckerBoard board = new CheckerBoard(window, game, player1, player2);
+        board.update();
+    }
 }
