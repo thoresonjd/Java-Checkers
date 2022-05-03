@@ -21,6 +21,25 @@ class CheckerBoardTest {
     void tearDown() {
     }
 
+    /*** setGameState ***/
+
+    @Test
+    void setGameState_ExpectSuccess_WhenBoardIsFlipped() {
+        Player player1 = new NetworkPlayer();
+        Player player2 = new NetworkPlayer();
+        CheckersWindow window = new CheckersWindow();
+        Game game = new Game();
+        CheckerBoard board = new CheckerBoard(window, game, player1, player2);
+
+        // Black checker = 6, empty tile = 0, white checker = 4
+        String initialState = "666666666666000000004444444444441-1";
+        String newState = "444444444444000000006666666666661-1";
+        boolean success = board.setGameState(true, newState, initialState);
+
+        assertTrue(success);
+        assertEquals(newState, game.getGameState());
+    }
+
     /*** update ***/
 
     @Test
