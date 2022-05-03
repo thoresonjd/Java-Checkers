@@ -42,4 +42,16 @@ class CheckerBoardTest {
         CheckerBoard board = new CheckerBoard(window, game, player1, player2);
         board.update();
     }
+
+    /*** updateGame ***/
+
+    @Test
+    void updateNetwork_Exercise_SessionsDoNotConnect() {
+        Player player1 = new NetworkPlayer();
+        Player player2 = new NetworkPlayer();
+        CheckersWindow window = new CheckersWindow();
+        Game game = new Game();
+        CheckerBoard board = new CheckerBoard(window, game, player1, player2);
+        board.updateNetwork();
+    }
 }
