@@ -74,6 +74,22 @@ class CheckerBoardTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void setLightTile_ExpectRed_WhenRedTileIsProvided() {
+        // Set up
+        Player player1 = new NetworkPlayer();
+        Player player2 = new NetworkPlayer();
+        CheckersWindow window = new CheckersWindow();
+        Game game = new Game();
+        CheckerBoard board = new CheckerBoard(window, game, player1, player2);
+
+        // Set light tile
+        board.setLightTile(Color.RED);
+        Color expected = Color.RED;
+        Color actual = board.getLightTile();
+        assertEquals(expected, actual);
+    }
+
     /*** update ***/
 
     @Test
