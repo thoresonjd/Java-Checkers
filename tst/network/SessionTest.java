@@ -103,7 +103,7 @@ class SessionTest {
     /*** getDestinationPort ***/
 
     @ParameterizedTest
-    @CsvSource({ "1000", "2000", "3000", "4000", "5000"})
+    @CsvSource({ "1212", "2323", "3434", "4545", "5656"})
     void getDestinationPort_ExpectProvidedPort_WhenPortProvidedViaConstructor(int destPort) {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", destPort);
@@ -114,7 +114,7 @@ class SessionTest {
     }
 
     @ParameterizedTest
-    @CsvSource({ "1000", "2000", "3000", "4000", "5000"})
+    @CsvSource({ "1001", "2002", "3003", "4004", "5005"})
     void getDestinationPort_ExpectProvidedPort_WhenPortProvidedViaSetter(int destPort) {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
@@ -128,7 +128,7 @@ class SessionTest {
     /*** getSourcePort ***/
 
     @ParameterizedTest
-    @CsvSource({"1000", "2000", "3000", "4000", "5000"})
+    @CsvSource({"6006", "7007", "8008", "9009", "1010"})
     void getSourcePort_ExpectProvidedPort_WhenPortProvided(int port) {
         ConnectionListener connectionListener = new ConnectionListener(port);
         Session session = new Session(connectionListener, "", "", 0);
@@ -156,7 +156,7 @@ class SessionTest {
     }
 
     @ParameterizedTest
-    @CsvSource({ "1000", "2000", "3000", "4000", "5000"})
+    @CsvSource({ "1111", "2222", "3333", "4444", "5555"})
     void getSourcePort_ExpectProvidedPort_WhenPortProvidedViaSetter(int srcPort) {
         ConnectionListener connectionListener = new ConnectionListener();
         Session session = new Session(connectionListener, "", "", 0);
