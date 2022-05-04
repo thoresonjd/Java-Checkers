@@ -118,7 +118,7 @@ class BoardTest {
         Board board = new Board();
 
         // Set board entirely empty
-        for (int i = 0; i <= 31; i ++) {
+        for (int i = 0; i < 32; i ++) {
             board.set(i, Board.EMPTY);
         }
 
@@ -135,8 +135,8 @@ class BoardTest {
                 new Point(0, 7), new Point(2, 7), new Point(4, 7), new Point(6, 7)
         );
         for (int i = 0; i < empty.size(); i++) {
-            assertEquals(empty.get(i).x, expectedEmpty.get(i).x);
-            assertEquals(empty.get(i).y, expectedEmpty.get(i).y);
+            assertEquals(expectedEmpty.get(i).x, empty.get(i).x);
+            assertEquals(expectedEmpty.get(i).y, empty.get(i).y);
         }
     }
 
