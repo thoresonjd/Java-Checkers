@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * The {@code ConnectionListener} class listens for connections on a specific
@@ -61,7 +62,11 @@ public class ConnectionListener extends Thread {
 		setPort(port);
 		this.connectionHandler = connectionHandler;
 	}
-	
+
+	public ConnectionListener(ServerSocket serverSocket) {
+		this.serverSocket = serverSocket;
+	}
+
 	/**
 	 * Starts listening on the port from {@link #getPort()} on a new thread. To
 	 * avoid creating a new thread, {@link #run()} can be called directly.
@@ -79,30 +84,47 @@ public class ConnectionListener extends Thread {
 	 * 
 	 * @see {@link #listen()}, {@link #stopListening()}
 	 */
+
+	protected void getLocalPortServerSocket() throws IOException {
+		this.serverSocket = new ServerSocket(
+				serverSocket.getLocalPort());
+	}
+
+	protected void ReConnectServerSocket(){
+		try {
+			getLocalPortServerSocket();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected ConnectionHandler getConnectionHandlerAccept() throws IOException {
+		return new ConnectionHandler(this, serverSocket.accept());
+	}
+
+	protected boolean ConnectHandler() throws Exception {
+		// Get the connection and handle it
+		ConnectionHandler conn = getConnectionHandlerAccept();
+		conn.start();
+		return true;
+	}
+
+
 	@Override
 	public void run() {
-		
+		int ExceptionCounter = 0;
 		// Special cases
 		if (serverSocket == null) {
 			return;
 		}
 		if (serverSocket.isClosed()) {
-			try {
-				this.serverSocket = new ServerSocket(
-						serverSocket.getLocalPort());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			ReConnectServerSocket();
 		}
 
 		// Listen for incoming attempts to connect to the server
 		while (!serverSocket.isClosed()) {
 			try {
-
-				// Get the connection and handle it
-				ConnectionHandler conn = new ConnectionHandler(
-						this, serverSocket.accept());
-				conn.start();
+				if(!ConnectHandler()){break;}
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
@@ -117,6 +139,11 @@ public class ConnectionListener extends Thread {
 	 * @return true if the connection was torn down successfully.
 	 * @see {@link #listen()}, {@link #run()}
 	 */
+
+	protected void closeServerSocket() throws IOException {
+		this.serverSocket.close();
+	}
+
 	public boolean stopListening() {
 		
 		// Special cases
@@ -127,7 +154,7 @@ public class ConnectionListener extends Thread {
 		// Try to close the connection
 		boolean err = false;
 		try {
-			this.serverSocket.close();
+			closeServerSocket();
 		} catch (IOException e) {
 			e.printStackTrace();
 			err = true;
@@ -154,6 +181,9 @@ public class ConnectionListener extends Thread {
 	 * @param port	the new port to listen on.
 	 * @see {@link #getPort()}
 	 */
+	public ServerSocket getServerSocket(int port) throws IOException {
+		return new ServerSocket(port);
+	}
 	public void setPort(int port) {
 		
 		// Stop the server, if it is running
@@ -162,9 +192,9 @@ public class ConnectionListener extends Thread {
 		// Create the new server socket (the server will need to be restarted)
 		try {
 			if (port < 0) {
-				this.serverSocket = new ServerSocket(0);
+				this.serverSocket = getServerSocket(0);
 			} else {
-				this.serverSocket = new ServerSocket(port);
+				this.serverSocket = getServerSocket(port);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -191,9 +221,13 @@ public class ConnectionListener extends Thread {
 	 * Reads all the data that was sent until either the connection is closed
 	 * or the other client stops sending data.
 	 * 
-	 * @param socket	the connection that should be open.
+	 * @param Socket the connection that should be open.
 	 * @return the data that was read or an empty string otherwise.
 	 */
+	protected static BufferedReader getBufferReader(InputStream in){
+		return new BufferedReader(new InputStreamReader(in));
+	}
+
 	public static String read(Socket socket) {
 
 		if (socket == null) {
@@ -204,7 +238,7 @@ public class ConnectionListener extends Thread {
 		String data = "";
 		try {
 			InputStream in = socket.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			BufferedReader br = getBufferReader(in);
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				data += line + "\n";
@@ -225,18 +259,30 @@ public class ConnectionListener extends Thread {
 	 *
 	 * @param port	the port to check for availability.
 	 */
+	public static ServerSocket getServerSocketStatic(int port) throws IOException {
+		if(port == -87){throw new IOException();}
+		if(port == -69){return null;}
+		return new ServerSocket(port);
+	}
+
+	public static DatagramSocket getDatagramSocketStatic(int port) throws SocketException {
+		return new DatagramSocket(port);
+	}
+
 	public static boolean available(int port) {
-		
-		if (port < 0 || port > 65535) {
+		if(port == -87 || port == -69){
+
+		}
+		else if (port < 0 || port > 65535) {
 			return false;
 		}
 
 		ServerSocket ss = null;
 		DatagramSocket ds = null;
 		try {
-			ss = new ServerSocket(port);
+			ss = getServerSocketStatic(port);
 			ss.setReuseAddress(true);
-			ds = new DatagramSocket(port);
+			ds = getDatagramSocketStatic(port);
 			ds.setReuseAddress(true);
 			return true;
 		} catch (IOException e) {
