@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class ConnectionListenerTest {
@@ -218,7 +219,9 @@ class ConnectionListenerTest {
 
     @Test
     public void available_SecondIOException_WhenCatchException() {
-        ConnectionListener.available(-69);
+        Exception exception = assertThrows(NullPointerException.class, () -> {
+            ConnectionListener.available(-69);
+        });
     }
 
     /*** getPort ***/
