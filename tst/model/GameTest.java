@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -49,6 +50,61 @@ class GameTest {
     void move_expectFalse_whenBoardIsNull() {
         Game game = new Game(null, true, -1);
         assertFalse(game.move(new Point(), new Point()));
+    }
+
+    @Test
+    void move_expectTrue_whenMoveToOpenSquare() {
+        Game game = new Game();
+        boolean result = game.move(new Point(1, 2), new Point(2, 3));
+        assertTrue(result);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "4, 0, false", // White checker
+            "26, 31, true" // Black checker
+    })
+    void move_expectCheckerToBecomeKing_whenMovedToEmptySquareOnOppositeSideOfBoard(
+            int startIndex, int endIndex, boolean isBlackTurn) {
+        Board board = new Board();
+
+        // Place the checker in position where it can move to become king
+        board.set(startIndex, isBlackTurn ? Board.BLACK_CHECKER : Board.WHITE_CHECKER);
+        board.set(endIndex, Board.EMPTY);
+        Game game = new Game(board, isBlackTurn, -1);
+
+        // Move it to the edge of the board
+        game.move(startIndex, endIndex);
+
+        // Assert that it became a king
+        int king = isBlackTurn ? Board.BLACK_KING : Board.WHITE_KING;
+        assertEquals(king, game.getBoard().get(endIndex));
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void move_expectSkipIndexSetToEndIndex_whenCheckerIsCapturedAndAnotherCouldBeCaptured(
+            int startIndex,
+            int midIndex,
+            int endIndex,
+            int possibleSkipIndex,
+            boolean isBlackTurn
+    ) {
+        Board board = new Board();
+
+        // Prepare opposite color checker to be captured at midIndex
+        board.set(midIndex, isBlackTurn ? Board.WHITE_CHECKER : Board.BLACK_CHECKER);
+        // Open up landing square
+        board.set(endIndex, Board.EMPTY);
+        // Prepare another opposite color checker that could be captured
+        board.set(possibleSkipIndex, isBlackTurn ? Board.WHITE_CHECKER : Board.BLACK_CHECKER);
+
+        Game game = new Game(board, isBlackTurn, -1);
+
+        // Capture
+        game.move(startIndex, endIndex);
+
+        assertEquals(endIndex, game.getSkipIndex());
     }
 
     @Test
@@ -140,6 +196,13 @@ class GameTest {
                 Arguments.of(null, new Point()),
                 Arguments.of(new Point(), null),
                 Arguments.of(null, null)
+        );
+    }
+
+    private static Stream<Arguments> move_expectSkipIndexSetToEndIndex_whenCheckerIsCapturedAndAnotherCouldBeCaptured() {
+        return Stream.of(
+                Arguments.of(0, 5, 9, 14, true),    // Black checker captures white
+                Arguments.of(31, 26, 22, 17, false) // White checker captures black
         );
     }
 
