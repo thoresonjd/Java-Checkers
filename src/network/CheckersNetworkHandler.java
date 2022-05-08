@@ -63,6 +63,20 @@ public class CheckersNetworkHandler implements ActionListener {
 	/**
 	 * Handles a new connection from the {@link ConnectionListener}.
 	 */
+
+	public ConnectionHandler getEventSource(ActionEvent e){
+		return (ConnectionHandler) e.getSource();
+	}
+
+	public String getCMD(String[] lines){
+		return lines[0].split(" ")[0].toUpperCase();
+	}
+
+	public String getSID(String[] lines){
+		return lines.length > 1? lines[1] : "";
+	}
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -72,7 +86,7 @@ public class CheckersNetworkHandler implements ActionListener {
 		}
 
 		// Get the data from the connection
-		ConnectionHandler handler = (ConnectionHandler) e.getSource();
+		ConnectionHandler handler = getEventSource(e);
 		String data = ConnectionListener.read(handler.getSocket());
 		data = data.replace("\r\n", "\n");
 		
@@ -86,8 +100,10 @@ public class CheckersNetworkHandler implements ActionListener {
 
 		// Determine if a valid user
 		String[] lines = data.split("\n");
-		String cmd = lines[0].split(" ")[0].toUpperCase();
-		String sid = lines.length > 1? lines[1] : "";
+		String cmd = getCMD(lines);
+		//String cmd = lines[0].split(" ")[0].toUpperCase();
+		String sid = getSID(lines);
+		//String sid = lines.length > 1? lines[1] : "";
 		String response = "";
 		boolean match = false;
 		if (isPlayer1) {
@@ -126,6 +142,7 @@ public class CheckersNetworkHandler implements ActionListener {
 			if (match) {
 				response = RESPONSE_ACCEPTED + "\n"
 						+ board.getGame().getGameState();
+				//response = getResponse(RESPONSE_ACCEPTED + "\n" + board.getGame().getGameState());
 			} else {
 				response = RESPONSE_DENIED;
 			}
@@ -169,6 +186,10 @@ public class CheckersNetworkHandler implements ActionListener {
 	 * @param newState
 	 * @return
 	 */
+
+	public void testHandleUpdate(String text){
+		handleUpdate(text);
+	}
 	private String handleUpdate(String newState) {
 		
 		// New state is invalid 
@@ -206,26 +227,34 @@ public class CheckersNetworkHandler implements ActionListener {
 	 * @param remotePlayer1	the flag indicating if the remote player is player 1.
 	 * @return the resulting response to send to the remote client.
 	 */
+
+	public void testHandleConnect(Socket s, int port, boolean remotePlayer1){
+		handleConnect(s, port, remotePlayer1);
+	}
+
+	public NetworkWindow getWin(){
+		return (isPlayer1?
+				opts.getNetworkWindow1() : opts.getNetworkWindow2());
+	}
+
 	private String handleConnect(Socket s, int port, boolean remotePlayer1) {
 
 		// Check if there is someone already connected
 		Session s1 = window.getSession1(), s2 = window.getSession2();
 		String sid1 = s1.getSid();
 		String sid2 = s2.getSid();
-		if ((isPlayer1 && sid1 != null && !sid1.isEmpty()) ||
-				(!isPlayer1 && sid2 != null && !sid2.isEmpty())) {
+		if ((isPlayer1 && sid1 != null && !sid1.isEmpty()) || (!isPlayer1 && sid2 != null && !sid2.isEmpty())) {
 			return RESPONSE_DENIED + "\nError: user already connected.";
 		}
 		
 		// Check that it is a valid connection
-		if (!(isPlayer1 ^ remotePlayer1)) {
+		if (isPlayer1 == remotePlayer1) {
 			return RESPONSE_DENIED + "\nError: the other client is already "
 					+ "player " + (remotePlayer1? "1." : "2.");
 		}
 		String host = s.getInetAddress().getHostAddress();
 		if (host.equals("127.0.0.1")) {
-			if ((isPlayer1 && port == s2.getSourcePort()) ||
-					(!isPlayer1 && port == s1.getSourcePort())) {
+			if ((isPlayer1 && port == s2.getSourcePort()) || (!isPlayer1 && port == s1.getSourcePort())) {
 				return RESPONSE_DENIED + "\nError: the client cannot connect "
 						+ "to itself.";
 			}
@@ -234,8 +263,7 @@ public class CheckersNetworkHandler implements ActionListener {
 		// Update the connection
 		String sid = generateSessionID();
 		Session session = isPlayer1? s1 : s2;
-		NetworkWindow win = (isPlayer1?
-				opts.getNetworkWindow1() : opts.getNetworkWindow2());
+		NetworkWindow win = getWin();
 		session.setSid(sid);
 		session.setDestinationHost(host);
 		session.setDestinationPort(port);
@@ -256,6 +284,10 @@ public class CheckersNetworkHandler implements ActionListener {
 	 * @param handler	the connection handler to send the response to.
 	 * @param response	the response data to send.
 	 */
+	public void testSendResponse(ConnectionHandler handler, String response){
+		sendResponse(handler, response);
+	}
+
 	private static void sendResponse(ConnectionHandler handler,
 			String response) {
 
@@ -280,8 +312,7 @@ public class CheckersNetworkHandler implements ActionListener {
 		} finally {
 
 			// Close the socket
-			try {
-				s.close();
+			try {s.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
