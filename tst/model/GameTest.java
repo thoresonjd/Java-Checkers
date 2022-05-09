@@ -114,6 +114,69 @@ class GameTest {
         assertNotEquals(originalBoard, game.getBoard());
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "0, 11",
+            "20, 31",
+    })
+    void isGameOver_expectTrue_whenAllCheckersOfOneColorAreRemoved(int fromIndex, int toIndex) {
+        Board board = new Board();
+        for (int index = fromIndex; index <= toIndex; index++) {
+            board.set(index, Board.EMPTY);
+        }
+
+        Game game = new Game(board, true, -1);
+
+        assertTrue(game.isGameOver());
+    }
+
+    @Test
+    void isGameOver_expectTrue_whenBoardIsEmpty() {
+        Game game = new Game("00000000000000000000000000000000");
+        assertTrue(game.isGameOver());
+    }
+
+    @Test
+    void isGameOver_expectFalse_whenGameBegins() {
+        Game game = new Game();
+        assertFalse(game.isGameOver());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "444400000006000000000000000006666-1, true", // Black checker in the middle of the board
+            "444400000000000000400000000006666-1, false", // White checker in the middle of the board
+            "000000000000000040000000000600000-1, true", // Black checker one square away from edge
+            "000040000000000060000000000000000-1, false", // White checker one square away from edge
+    })
+    void isGameOver_expectFalse_whenAtLeastOneOfTheRemainingCheckersHasOpenSquareToMoveTo(
+            String state, boolean isP1Turn) {
+        Game game = new Game(state);
+        game.setP1Turn(isP1Turn);
+        assertFalse(game.isGameOver());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "000000000000000000000000000000061-1, true", // Black checkers reached edge of board
+            "000000000000000000000000000000661-1, true",
+            "000000000000000000000000000006661-1, true",
+            "000000000000000000000060606060601-1, true",
+
+            "400000000000000000000000000000000-1, false", // White checkers reached edge of board
+            "440000000000000000000000000000000-1, false",
+            "444000000000000000000000000000000-1, false",
+            "404040404040000000000000000000000-1, false",
+
+            "444400000000000000000000000006666-1, true", // Black and white checkers both still on the
+            "444400000000000000000000000006666-1, false" // board, both reached edge of board
+    })
+    void isGameOver_expectTrue_whenRemainingCheckersHaveNoOpenSquareToMoveTo(String state, boolean isP1Turn) {
+        Game game = new Game(state);
+        game.setP1Turn(isP1Turn);
+        assertTrue(game.isGameOver());
+    }
+
     @Test
     void isP1Turn_expectTrue_whenP1TurnSetToTrue() {
         Game game = new Game();
