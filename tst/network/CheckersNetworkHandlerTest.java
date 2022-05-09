@@ -3,7 +3,6 @@ package network;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import model.Board;
 import model.Game;
 import model.NetworkPlayer;
 import model.Player;
@@ -17,7 +16,6 @@ import ui.NetworkWindow;
 import ui.OptionPanel;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
