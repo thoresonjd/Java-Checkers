@@ -36,6 +36,12 @@ class ConnectionListenerTest {
         ConnectionListener cl = new ConnectionListener(0, connectionHandler);
     }
 
+    @Test
+    void new_CreateConnectionListener_WhenProvideServerSocket_ExpectPass() throws IOException {
+        ConnectionListener cl = new ConnectionListener(new ServerSocket());
+    }
+
+
     /*** Run ***/
 
     @Test
