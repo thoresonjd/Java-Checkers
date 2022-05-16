@@ -112,7 +112,12 @@ class MoveLogicTest {
     /* ---------------------------------------------------
     |  validateDistance() Tests
     |  -------------------------------------------------*/
+    // TODO: Incomplete, not passing or working
+    @Test
+    void validateDistance_pass_checkMoveGenerateGetSkipsIsFalseExpectFalse(){
+        Board b = new Board();
 
+    }
     /* -------------------------------------------------*/
 
     /* ---------------------------------------------------
