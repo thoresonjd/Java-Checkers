@@ -20,4 +20,9 @@ class MainTest {
     @AfterEach
     void tearDown() {
     }
+
+    @Test
+    void main_pass_somethingGoesWrongAnyExceptionIsThrownExpectTrue(){
+
+    }
 }
