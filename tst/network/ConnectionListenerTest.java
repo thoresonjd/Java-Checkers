@@ -1,6 +1,7 @@
 package network;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -186,7 +188,7 @@ class ConnectionListenerTest {
 
     @Test
     public void read_ReturnEmpty_WhenSocketIsNull() {
-        ConnectionListener.read(null);
+        Assertions.assertEquals(ConnectionListener.read(null), "");
     }
 
     @Test
@@ -286,4 +288,5 @@ class ConnectionListenerTest {
         cl.setConnectionHandler(actionListener);
     }
 
+    /* */
 }
