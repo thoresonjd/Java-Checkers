@@ -200,7 +200,6 @@ class GameTest {
     void setGameState_shouldSetP1TurnToTrue_whenStateLengthIsGreaterThan32AndChar32Is1(String state) {
         Game game = new Game(new Board(), true, -1);
         game.setGameState(state);
-        System.out.println(game.getGameState());
 
         assertTrue(game.isP1Turn());
     }
@@ -214,7 +213,6 @@ class GameTest {
     void setGameState_shouldSetP1TurnToFalse_whenStateLengthIsGreaterThan32AndChar32IsNot1(String state) {
         Game game = new Game(new Board(), true, -1);
         game.setGameState(state);
-        System.out.println(game.getGameState());
 
         assertFalse(game.isP1Turn());
     }
