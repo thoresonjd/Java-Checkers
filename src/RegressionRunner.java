@@ -9,10 +9,10 @@ import java.util.*;
 
 public class RegressionRunner {
 
-    private final String smtpEmail; // = "koggefa@gmail.com";
-    private final String smtpPassword; // = "put a one time app password here for your smtp server";
-    private final String smtpHost; //= "smtp.gmail.com";
-    private final int smtpPort; // = 587;
+    private final String smtpEmail;
+    private final String smtpPassword;
+    private final String smtpHost;
+    private final int smtpPort;
     private final List<String> scriptCommands;
     private final String recipientEmail;
     private final StringBuilder emailContentBuilder;
